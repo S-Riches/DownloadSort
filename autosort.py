@@ -9,13 +9,17 @@ import ctypes, sys
 def main():
     setup.setup()    
     path = str(Path.home() / "Downloads")
-    imagesort(path)
-    videoSort(path)
-    compFolders(path)
-    music(path)
-    documents(path)
-    miscFiles(path)
-    
+    try:
+        imagesort(path)
+        videoSort(path)
+        compFolders(path)
+        music(path)
+        documents(path)
+        miscFiles(path)
+    except shutil.Error:
+        
+        pass
+        
 
 def imagesort(path):
     #makes a list of all files, the goes through each one
