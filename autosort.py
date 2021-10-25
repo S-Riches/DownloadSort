@@ -1,11 +1,12 @@
 import os
+from tkinter import StringVar
 import setup
 from pathlib import Path
 import shutil
-import ctypes, sys
+
+err = None
 
 # this code sorts your download folder and if it has been run before then it will place the new files in pre-existing folders
-
 def main():
     setup.setup()    
     path = str(Path.home() / "Downloads")
@@ -16,10 +17,16 @@ def main():
         music(path)
         documents(path)
         miscFiles(path)
-    except shutil.Error:
-        
-        pass
-        
+
+
+    except shutil.Error as a:
+        print(a)
+        err = a
+        print('DEBUG', err)
+              
+        #TODO add system to skip past files that are dupes to show all files with issues, possibly present an option to randomly rename them.
+
+    
 
 def imagesort(path):
     #makes a list of all files, the goes through each one
@@ -46,7 +53,7 @@ def compFolders(path):
     files = os.listdir(path)
     path = str(Path.home() / "Downloads/ZIPS, RARS, .exe's")
     for i in files:
-        if i.lower().endswith((".zip", ".rar", ".7z", ".exe", ".gz", ".jar", ".dmg")):
+        if i.lower().endswith((".zip", ".rar", ".7z", ".exe", ".gz", ".jar")):
             shutil.move(i, path)
             print(i)
 
@@ -67,26 +74,20 @@ def documents(path):
         #checks if the for loop has gone over the read me, if true skip to next list item
         if i == "README_ForSetupPy.txt":
             pass
-        elif i.lower().endswith((".txt", ".pdf", ".docx", ".pptx", ".csv", ".xlsx", ".log", ".doc", ".md", ".html", ".yml", ".conf", ".odt")):
+        elif i.lower().endswith((".txt", ".pdf", ".docx", ".pptx", ".csv", ".xlsx", ".log", ".doc", ".md", ".html", ".yml", ".conf")):
             shutil.move(i, path)
             print(i)
 
 # move remaining files to misc folder
 def miscFiles(path):
-    try:
-        files = os.listdir(path)
-        path = str(Path.home()/ "Downloads/Misc")
-        for i in files:
-            if i == "README_ForSetupPy.txt":
-                pass
-            elif i.lower().endswith(".DS_Store"):
-                pass
-            else:
-                if os.path.isdir(i) == False:
-                    shutil.move(i, path)
-                    print(i)
-    except shutil.Error:
-        pass
+    files = os.listdir(path)
+    path = str(Path.home()/ "Downloads/Misc")
+    for i in files:
+        if i == "README_ForSetupPy.txt":
+            pass
+        else:
+            if os.path.isdir(i) == False:
+                shutil.move(i, path)
+                print(i)
 
 main()
-
