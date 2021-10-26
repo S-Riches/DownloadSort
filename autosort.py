@@ -1,10 +1,9 @@
 import os
-from tkinter import StringVar
 import setup
 from pathlib import Path
 import shutil
 
-err = None
+
 
 # this code sorts your download folder and if it has been run before then it will place the new files in pre-existing folders
 def main():
@@ -21,9 +20,7 @@ def main():
 
     except shutil.Error as a:
         print(a)
-        err = a
-        print('DEBUG', err)
-              
+        return a
         #TODO add system to skip past files that are dupes to show all files with issues, possibly present an option to randomly rename them.
 
     
@@ -90,4 +87,4 @@ def miscFiles(path):
                 shutil.move(i, path)
                 print(i)
 
-main()
+

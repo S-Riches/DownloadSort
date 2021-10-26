@@ -21,10 +21,6 @@ out.set(errorMessage)
 # a label is text, where you can give it different arguments
 lab = tk.Label(root, text="Download folder Sorter", font="courier 25 bold", bg="#5e5e5e")
 
-#TODO need to find a way to loop the autosort or atleast get it running well
-but = tk.Button(root, text="Sort!", font="courier 15 bold", bg="gray", command=lambda:[autosort.main(), out.set(autosort.err)])
-
-
 # you can also write the widget like this way
 disp = tk.Message(
     root,
@@ -33,6 +29,8 @@ disp = tk.Message(
     relief=tk.RIDGE,
     font=('courier', 15)
 )
+
+but = tk.Button(root, text="Sort!", font="courier 15 bold", bg="gray", command=lambda:out.set(autosort.main() or errorMessage))
 
 #TODO come back to this to center via a better method, probably whitespace with empty columns
 #grid section
