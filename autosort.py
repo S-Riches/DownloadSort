@@ -3,6 +3,7 @@ import setup
 from pathlib import Path
 import shutil
 
+dupeList = []
 
 
 # this code sorts your download folder and if it has been run before then it will place the new files in pre-existing folders
@@ -20,10 +21,15 @@ def main():
 
     except shutil.Error as a:
         print(a)
-        return a
-        #TODO add system to skip past files that are dupes to show all files with issues, possibly present an option to randomly rename them.
+        dupeList.append(a)
+        print('list', *dupeList)
+        return dupeList
+        #TODO need to finish the dupe system
 
     
+
+
+
 
 def imagesort(path):
     #makes a list of all files, the goes through each one
@@ -43,7 +49,7 @@ def videoSort(path):
     for i in files:
         if i.lower().endswith((".mp4", ".mov", ".webm", ".mkv", ".avi", ".flv")):
             shutil.move(i, path)
-            print(i)
+            #print(i)
 
 # move compressed folders into one folder + executables
 def compFolders(path):
@@ -52,7 +58,7 @@ def compFolders(path):
     for i in files:
         if i.lower().endswith((".zip", ".rar", ".7z", ".exe", ".gz", ".jar")):
             shutil.move(i, path)
-            print(i)
+            #print(i)
 
 # move audio files to music folder
 def music(path):
@@ -61,7 +67,7 @@ def music(path):
     for i in files:
         if i.lower().endswith((".mp3", ".mid", ".wav", ".ogg")):
             shutil.move(i, path)
-            print(i)
+            #print(i)
 
 # move documents to documents folder
 def documents(path):
@@ -73,7 +79,7 @@ def documents(path):
             pass
         elif i.lower().endswith((".txt", ".pdf", ".docx", ".pptx", ".csv", ".xlsx", ".log", ".doc", ".md", ".html", ".yml", ".conf")):
             shutil.move(i, path)
-            print(i)
+            #print(i)
 
 # move remaining files to misc folder
 def miscFiles(path):
@@ -85,6 +91,27 @@ def miscFiles(path):
         else:
             if os.path.isdir(i) == False:
                 shutil.move(i, path)
-                print(i)
+                #print(i)
 
+# this function should rename a file that has been found in two different locations
+def renameDupeFile(path):
+
+    # OH basically need to rewrite this to only check for files that are in the list not the directory, otherwise this does every non directory file
+    files = os.listdir(path)
+    path = str(Path.home()/ "Downloads")
+    for i in files:
+        if os.path.isdir(i) == False:
+            # need a check that the file is a dupe.
+            if i != "README_ForSetupPy.txt":
+                #rename
+                #print(i)
+                name, ext = os.path.splitext(i)
+                print(name,ext)
+                newFileName = "{Name}_{id}{ext}".format(Name = name, id = '(01)', ext = ext)
+                print(newFileName)
+                pass
+            else:
+                pass
+        else:
+            pass
 

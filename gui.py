@@ -29,8 +29,9 @@ disp = tk.Message(
     relief=tk.RIDGE,
     font=('courier', 15)
 )
-
+# instead of trying to get the variable from the autosort script, we return the value from the script and get it that way
 but = tk.Button(root, text="Sort!", font="courier 15 bold", bg="gray", command=lambda:out.set(autosort.main() or errorMessage))
+
 
 #TODO come back to this to center via a better method, probably whitespace with empty columns
 #grid section
