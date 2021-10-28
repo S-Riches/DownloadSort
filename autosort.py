@@ -1,15 +1,17 @@
 import os
+from types import TracebackType
 import setup
+import sys
 from pathlib import Path
 import shutil
 
-dupeList = []
 
 
 # this code sorts your download folder and if it has been run before then it will place the new files in pre-existing folders
 def main():
     setup.setup()    
     path = str(Path.home() / "Downloads")
+
     try:
         imagesort(path)
         videoSort(path)
@@ -17,17 +19,18 @@ def main():
         music(path)
         documents(path)
         miscFiles(path)
-
+        # have a bool to check if its sorted? i.e. loop to keep going after rename occurs
 
     except shutil.Error as a:
         print(a)
-        dupeList.append(a)
-        print('list', *dupeList)
-        return dupeList
-        #TODO need to finish the dupe system
-
-    
-
+        # break error into string, seperate at ' and save the second item in that list (the destination)
+        dupeList = str(a).split("'")
+        dupe = dupeList[1]
+        
+        #debug
+        print(dupe)
+        renameDupeFile(dupe)
+        return "Error < {dupe} > found!, adding (01) to tag now".format(dupe = a)
 
 
 
@@ -94,24 +97,23 @@ def miscFiles(path):
                 #print(i)
 
 # this function should rename a file that has been found in two different locations
-def renameDupeFile(path):
-
-    # OH basically need to rewrite this to only check for files that are in the list not the directory, otherwise this does every non directory file
-    files = os.listdir(path)
-    path = str(Path.home()/ "Downloads")
-    for i in files:
-        if os.path.isdir(i) == False:
-            # need a check that the file is a dupe.
-            if i != "README_ForSetupPy.txt":
-                #rename
-                #print(i)
-                name, ext = os.path.splitext(i)
-                print(name,ext)
-                newFileName = "{Name}_{id}{ext}".format(Name = name, id = '(01)', ext = ext)
-                print(newFileName)
-                pass
-            else:
-                pass
+def renameDupeFile(file):
+    # check that the file isnt setup or directory
+    if os.path.isdir(file) == False:
+        if file != "README_ForSetupPy.txt":
+            # splits the name into the root and extension
+            name, ext = os.path.splitext(file)
+            # formats the string to add (01) to stop the naming issue
+            newFileName = "{Name}_{id}{ext}".format(Name = name, id = '(01)', ext = ext)
+            # debug
+            print(newFileName)
+            # os.rename is used to rename the file.
+            os.rename(file, newFileName)
+            pass
+        # probably dont need these pass keywords anymore, and they look ugly
         else:
             pass
+    else:
+        pass
+        
 
