@@ -21,7 +21,7 @@ def setup():
         try:
             os.mkdir("Images")
             os.mkdir("Videos")
-            os.mkdir("ZIPS, RARS, .exe's")
+            os.mkdir("ZIPS, RARS, .EXEs")
             os.mkdir("Music")
             os.mkdir("Misc")
             os.mkdir("Documents")

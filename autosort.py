@@ -99,21 +99,22 @@ def miscFiles(path):
 # this function should rename a file that has been found in two different locations
 def renameDupeFile(file):
     # check that the file isnt setup or directory
-    if os.path.isdir(file) == False:
-        if file != "README_ForSetupPy.txt":
-            # splits the name into the root and extension
-            name, ext = os.path.splitext(file)
-            # formats the string to add (01) to stop the naming issue
-            newFileName = "{Name}_{id}{ext}".format(Name = name, id = '(01)', ext = ext)
-            # debug
-            print(newFileName)
-            # os.rename is used to rename the file.
-            os.rename(file, newFileName)
-            pass
-        # probably dont need these pass keywords anymore, and they look ugly
+    try:
+        if os.path.isdir(file) == False:
+            if file != "README_ForSetupPy.txt":
+                # splits the name into the root and extension
+                name, ext = os.path.splitext(file)
+                # formats the string to add (01) to stop the naming issue
+                newFileName = "{Name}_{id}{ext}".format(Name = name, id = '(01)', ext = ext)
+                # debug
+                print(newFileName)
+                # os.rename is used to rename the file.
+                os.rename(file, newFileName)
         else:
             pass
-    else:
-        pass
+    except FileNotFoundError:
+        # apostrophe in file name error, shouldnt be too common, however it needs to be shown to user. possible todo?
+        print("file not found, could have apostrophe in file name")
+        return("file has apostrophes, please rename")
         
 
