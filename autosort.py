@@ -57,7 +57,7 @@ def videoSort(path):
 # move compressed folders into one folder + executables
 def compFolders(path):
     files = os.listdir(path)
-    path = str(Path.home() / "Downloads/ZIPS, RARS, .exe's")
+    path = str(Path.home() / "Downloads/ZIPS, RARS, .exes")
     for i in files:
         if i.lower().endswith((".zip", ".rar", ".7z", ".exe", ".gz", ".jar")):
             shutil.move(i, path)
